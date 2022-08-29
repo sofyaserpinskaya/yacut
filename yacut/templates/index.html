@@ -14,8 +14,8 @@
           </div>
           <div class="col-sm">
             <form method="POST" novalidate>
+              {{ form.csrf_token }}
               <div>
-                {{ form.csrf_token }}
                 <div>
                   {{ form.original_link(class="form-control form-control-lg py-3 mb-3", placeholder=form.original_link.label.text) }}
                   <p>
@@ -35,15 +35,14 @@
                       {% endfor %}
                     {% endif %}
 
-                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% with messages = get_flashed_messages() %}
                       {% if messages %}
-                        {% for category, message in messages %}
-                          {% if category == 'url_exists' %}
-                            <span style="color: red">{{ message }}</span> 
-                          {% endif %} 
+                        {% for message in messages %}
+                            <span style="color: red">{{ message }}</span>
                         {% endfor %}
                       {% endif %}
                     {% endwith %}
+
                   </p>
                 </div>
                 {{ form.submit(class="btn btn-primary") }}
@@ -61,18 +60,12 @@
           </div>
           <div class="col-sm">
             <p class="text-center">
-              {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                  {% for category, message in messages %}
-                    {% if category == 'url_created' %}
-                      <b> {{ message }} </b>
-                      <a href="{{ url_for('get_original_url', short=url_map.short, _external=True) }}">
-                        <b> <u> {{ url_for('get_original_url', short=url_map.short, _external=True) }} </u> </b>
-                      </a>
-                      {% endif %}
-                  {% endfor %}
-                {% endif %}
-              {% endwith %}
+              {% if url_map %}
+                <b> Ваша новая ссылка готова: </b>
+                <a href="{{ url_for('get_original_url', short_id=url_map.short, _external=True) }}">
+                  <b> <u> {{ url_for('get_original_url', short_id=url_map.short, _external=True) }} </u> </b>
+                </a>
+              {% endif %}
             </p>
           </div>
           <div class="col-sm">
