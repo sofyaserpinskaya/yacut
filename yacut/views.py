@@ -25,11 +25,7 @@ def index_view():
                 SHORT_ID_NAME_ERROR.format(short_id),
             )
             return render_template('index.html', form=form)
-    url_map = URL_map(
-        original=form.original_link.data,
-        short=short_id
-    )
-    url_map.add_to_db()
+    url_map = URL_map.create_from_form(form.original_link.data, short_id)
     return render_template('index.html', form=form, url_map=url_map)
 
 
