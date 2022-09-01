@@ -19,10 +19,7 @@ def create_short_url():
         raise InvalidAPIUsage(NO_URL_ERROR)
     original = data['url']
     try:
-        if 'custom_id' not in data:
-            url_map = URL_map.create(original, validate=True)
-        else:
-            url_map = URL_map.create(original, data['custom_id'], validate=True)
+        url_map = URL_map.create(original, data.get('custom_id'), validate=True)
     except (ValueError, GenerateShortIdError) as error:
         raise InvalidAPIUsage(str(error))
     return jsonify(url_map.to_dict()), 201

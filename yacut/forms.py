@@ -36,7 +36,7 @@ class UrlForm(FlaskForm):
                 message=WRONG_SIZE
             ),
             Regexp(
-                '^' + SHORT_ID_ALLOWED_CHARACTERS + '+$',
+                f'^{SHORT_ID_ALLOWED_CHARACTERS}+$',
                 message=WRONG_CHARACTER_SET
             ),
             Optional()
